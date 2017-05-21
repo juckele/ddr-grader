@@ -1,7 +1,10 @@
 package com.johnuckele.ddr.grader;
 
-public class Metadata {
-  public String name;
-  public String artist;
-}
+import java.util.Map;
 
+public class Metadata {
+  public String artist;
+  public String name;
+  public Map<Double, Double> beatToBpms;
+  public Map<Double, Double> beatToStops;
+}

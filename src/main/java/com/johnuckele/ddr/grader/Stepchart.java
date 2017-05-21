@@ -9,8 +9,8 @@ public class Stepchart {
   // The number of arrows in a song, which is a measure of how many literal arrows the song has.
   // Usually steps + jumps, unless there are 3 foot jumps or something else funny going on.
   private int arrowCount = 0;
-  private int stepCount = 0;
   private int jumpCount = 0;
+  private int stepCount = 0;
 
   // Variables to store the step chart
   private int stepHead = 0;
@@ -22,18 +22,6 @@ public class Stepchart {
     basicArrows = new int[maxStepCount];
     timestamps = new double[maxStepCount];
     beats = new double[maxStepCount];
-  }
-
-  public int getArrowCount() {
-    return arrowCount;
-  }
-
-  public int getStepCount() {
-    return stepCount;
-  }
-
-  public int getJumpCount() {
-    return jumpCount;
   }
 
   public void addStep(int arrows, double timestamp, double beat) {
@@ -51,5 +39,17 @@ public class Stepchart {
     }
     arrowCount += arrowsInStep;
     stepCount++;
+  }
+
+  public int getArrowCount() {
+    return arrowCount;
+  }
+
+  public int getJumpCount() {
+    return jumpCount;
+  }
+
+  public int getStepCount() {
+    return stepCount;
   }
 }

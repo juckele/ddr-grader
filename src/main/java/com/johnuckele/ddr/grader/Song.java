@@ -6,7 +6,7 @@ import java.util.List;
 public class Song {
   public final Metadata metadata;
   private List<Stepchart> stepcharts = new LinkedList<>();
-  
+
   public Song(Metadata metadata) {
     this.metadata = metadata;
   }
@@ -15,4 +15,3 @@ public class Song {
     stepcharts.add(stepchart);
   }
 }
-

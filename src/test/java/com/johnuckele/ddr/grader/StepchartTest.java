@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StepchartTest {
-
   @Test
   public void testJump() {
     Stepchart s = new Stepchart(2);
@@ -24,4 +23,3 @@ public class StepchartTest {
     Assert.assertEquals(0, s.getJumpCount());
   }
 }
-
