@@ -11,6 +11,8 @@ public class Stepchart {
   private int arrowCount = 0;
   private int jumpCount = 0;
   private int stepCount = 0;
+  private double firstStepTimestamp = Double.MAX_VALUE;
+  private double lastStepTimestamp = 0;
 
   // Variables to store the step chart
   private int stepHead = 0;
@@ -19,6 +21,7 @@ public class Stepchart {
   private double[] beats;
 
   public Stepchart(int maxStepCount) {
+    // Create storage structures
     basicArrows = new int[maxStepCount];
     timestamps = new double[maxStepCount];
     beats = new double[maxStepCount];
@@ -31,14 +34,27 @@ public class Stepchart {
     beats[stepHead] = beat;
     stepHead++;
 
-    // Process arrows for arrow count / jumps / steps
     long arrowsInStep =
         IntStream.range(0, MAX_ARROW_COUNT).filter(i -> 1 == (1 & (arrows >> i))).count();
-    if (arrowsInStep > 1) {
-      jumpCount++;
+
+    // Process arrows for arrow count / jumps / steps
+    if (arrowsInStep > 0) {
+      if (arrowsInStep > 1) {
+        jumpCount++;
+      }
+      arrowCount += arrowsInStep;
+      stepCount++;
     }
-    arrowCount += arrowsInStep;
-    stepCount++;
+
+    // Update first / last step timestamps
+    if (arrowsInStep > 0) {
+      if (timestamp < firstStepTimestamp) {
+        firstStepTimestamp = timestamp;
+      }
+      if (timestamp > lastStepTimestamp) {
+        lastStepTimestamp = timestamp;
+      }
+    }
   }
 
   public int getArrowCount() {
@@ -51,5 +67,13 @@ public class Stepchart {
 
   public int getStepCount() {
     return stepCount;
+  }
+
+  public double getFirstArrowTimestamp() {
+    return firstStepTimestamp;
+  }
+
+  public double getLastArrowTimestamp() {
+    return lastStepTimestamp;
   }
 }

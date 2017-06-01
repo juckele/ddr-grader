@@ -1,9 +1,76 @@
 package com.johnuckele.ddr.grader;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ParserTest {
+  @Test
+  public void testParseLinesForEmptyLines() {
+    String[] lines = {};
+    Song song = FileParser.parseLines(lines);
+    Assert.assertNull(song.metadata.name);
+    Assert.assertNull(song.metadata.artist);
+    Assert.assertEquals(0, song.stepcharts.size());
+  }
+
+  @Test
+  public void testParseLinesForCompleteSong() {
+    String[] lines = {
+      "#TITLE:TEST SONG;",
+      "#ARTIST:An Artist;",
+      "#BPMS:0.000=15.000;",
+      "#STOPS:60.000=1.0,120.000=1.0;",
+      "#NOTES:",
+      "dance-single:",
+      ":",
+      ":",
+      ":",
+      ",,,,:",
+      "0000",
+      "0000",
+      "1001",
+      "0000",
+      ",",
+      "1001",
+      "0110",
+      "0011",
+      "0110",
+      ",",
+      "1100",
+      "1010",
+      "0011",
+      "1001",
+      ",",
+      "0000",
+      "1000",
+      "0100",
+      "0010",
+      "0001",
+      "0100",
+      "0010",
+      "1000",
+      "0100",
+      "0010",
+      "0001",
+      "0100",
+      "0010",
+      "1001",
+      "0000",
+      "0000",
+      ";"
+    };
+    Song song = FileParser.parseLines(lines);
+    Assert.assertEquals("TEST SONG", song.metadata.name);
+    Assert.assertEquals("An Artist", song.metadata.artist);
+    Assert.assertEquals(1, song.stepcharts.size());
+    Assert.assertEquals(8, song.stepcharts.get(0).getFirstArrowTimestamp(), 0.0);
+    Assert.assertEquals(61, song.stepcharts.get(0).getLastArrowTimestamp(), 0.0);
+    Assert.assertEquals(32, song.stepcharts.get(0).getArrowCount(), 0.0);
+    Assert.assertEquals(10, song.stepcharts.get(0).getJumpCount(), 0.0);
+    Assert.assertEquals(22, song.stepcharts.get(0).getStepCount(), 0.0);
+  }
+
   @Test
   public void testParsingMetadataBpm() {
     String[] lines = {
@@ -11,7 +78,7 @@ public class ParserTest {
     };
     Metadata metadata = FileParser.parseMetadata(lines);
     Assert.assertEquals(7, metadata.beatToBpms.size());
-    Assert.assertEquals(302.521, metadata.beatToBpms.get(0.0), 0.001);
+    Assert.assertEquals(302.521, metadata.beatToBpms.get(0.0), 0.0);
     Assert.assertEquals(300.070, metadata.beatToBpms.get(4.0), 0.001);
     Assert.assertEquals(214.286, metadata.beatToBpms.get(290.0), 0.001);
     Assert.assertEquals(145.161, metadata.beatToBpms.get(291.0), 0.001);
@@ -25,8 +92,8 @@ public class ParserTest {
     String[] lines = {"#STOPS:3.500=1.0,7=0.25;"};
     Metadata metadata = FileParser.parseMetadata(lines);
     Assert.assertEquals(2, metadata.beatToStops.size());
-    Assert.assertEquals(1, metadata.beatToStops.get(3.5), 0.001);
-    Assert.assertEquals(0.25, metadata.beatToStops.get(7.0), 0.001);
+    Assert.assertEquals(1, metadata.beatToStops.get(3.5), 0.0);
+    Assert.assertEquals(0.25, metadata.beatToStops.get(7.0), 0.0);
   }
 
   @Test
@@ -39,8 +106,11 @@ public class ParserTest {
 
   @Test
   public void testParsingStepChart() {
+    Metadata metadata = new Metadata();
+    metadata.beatToBpms = ImmutableMap.of(0.0, 120.0);
+    metadata.beatToStops = ImmutableMap.of();
     String[] lines = {
-      "NOTES:",
+      "#NOTES:",
       "dance-single:" /*dance-double*/,
       ":",
       "Beginner:",
@@ -57,8 +127,10 @@ public class ParserTest {
       "0010",
       ";"
     };
-    Stepchart stepchart = FileParser.parseStepchart(lines);
+    Stepchart stepchart = FileParser.parseStepchart(metadata, lines);
     Assert.assertEquals(2, stepchart.getArrowCount());
+    Assert.assertEquals(3, stepchart.getFirstArrowTimestamp(), 0.0);
+    Assert.assertEquals(3.5, stepchart.getLastArrowTimestamp(), 0.0);
   }
 
   @Test
