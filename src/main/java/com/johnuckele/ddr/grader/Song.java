@@ -14,4 +14,28 @@ public class Song {
   public void addStepchart(Stepchart stepchart) {
     stepcharts.add(stepchart);
   }
+
+  public int getStopCount() {
+    return metadata.beatToStops.size();
+  }
+
+  public double getMinBpm() {
+    double minBpm = Double.MAX_VALUE;
+    for (double bpm : metadata.beatToBpms.values()) {
+      if (bpm < minBpm) {
+        minBpm = bpm;
+      }
+    }
+    return minBpm;
+  }
+
+  public double getMaxBpm() {
+    double maxBpm = Double.MIN_VALUE;
+    for (double bpm : metadata.beatToBpms.values()) {
+      if (bpm > maxBpm) {
+        maxBpm = bpm;
+      }
+    }
+    return maxBpm;
+  }
 }

@@ -6,7 +6,10 @@ import org.junit.Test;
 public class StepchartTest {
   @Test
   public void testJump() {
-    Stepchart s = new Stepchart(2);
+    StepchartMetadata stepchartMetadata =
+        new StepchartMetadata(
+            PadLayout.DOUBLE, Difficulty.EASY, 0, new double[] {0.0, 0.0, 0.0, 0.0, 0.0});
+    Stepchart s = new Stepchart(stepchartMetadata, 2);
     s.addStep(9, 10, 1);
     s.addStep(9, 12, 2);
     Assert.assertEquals(4, s.getArrowCount());
@@ -16,7 +19,10 @@ public class StepchartTest {
 
   @Test
   public void testStep() {
-    Stepchart s = new Stepchart(1);
+    StepchartMetadata stepchartMetadata =
+        new StepchartMetadata(
+            PadLayout.SINGLE, Difficulty.EASY, 2, new double[] {0.0, 0.0, 0.0, 0.0, 0.0});
+    Stepchart s = new Stepchart(stepchartMetadata, 1);
     s.addStep(1, 1, 1);
     Assert.assertEquals(1, s.getArrowCount());
     Assert.assertEquals(1, s.getStepCount());

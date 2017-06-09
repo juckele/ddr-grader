@@ -95,7 +95,7 @@ public class ParserTest {
     Assert.assertEquals(1, metadata.beatToStops.get(3.5), 0.0);
     Assert.assertEquals(0.25, metadata.beatToStops.get(7.0), 0.0);
   }
-
+  
   @Test
   public void testParsingMetadataTitleAndArtist() {
     String[] lines = {"#TITLE:CANDY☆;", "#ARTIST:Luv UNLIMITED;"};
@@ -111,7 +111,7 @@ public class ParserTest {
     metadata.beatToStops = ImmutableMap.of();
     String[] lines = {
       "#NOTES:",
-      "dance-single:" /*dance-double*/,
+      "dance-single:",
       ":",
       "Beginner:",
       "5:",
@@ -129,8 +129,19 @@ public class ParserTest {
     };
     Stepchart stepchart = FileParser.parseStepchart(metadata, lines);
     Assert.assertEquals(2, stepchart.getArrowCount());
+    Assert.assertEquals(PadLayout.SINGLE, stepchart.stepchartMetadata.padLayout);
     Assert.assertEquals(3, stepchart.getFirstArrowTimestamp(), 0.0);
     Assert.assertEquals(3.5, stepchart.getLastArrowTimestamp(), 0.0);
+  }
+
+  @Test
+  public void testParsingStepChartForDoubles() {
+    Metadata metadata = new Metadata();
+    metadata.beatToBpms = ImmutableMap.of(0.0, 120.0);
+    metadata.beatToStops = ImmutableMap.of();
+    String[] lines = {"#NOTES:", "dance-double:", ":", "Expert:", "13:", "0.0,0.0,0.0,0.0,0.0:", ";"};
+    Stepchart stepchart = FileParser.parseStepchart(metadata, lines);
+    Assert.assertEquals(PadLayout.DOUBLE, stepchart.stepchartMetadata.padLayout);
   }
 
   @Test
@@ -140,5 +151,28 @@ public class ParserTest {
     Assert.assertEquals(3, sections.length);
     Assert.assertEquals(2, sections[1].length);
     Assert.assertEquals(1, sections[2].length);
+  }
+
+  @Test
+  public void testParsingStepMetadata() {
+    String[] lines = {
+      "#NOTES:",
+      "dance-single:",
+      "Description that we discard:",
+      "Beginner:",
+      "5:",
+      "0.134,0.174,0.011,0.001,0.000:",
+      "Note data goes here, but it being bad shouldn't hard metadata parsing",
+      ";"
+    };
+    StepchartMetadata metadata = FileParser.parseStepchartMetadata(lines);
+    Assert.assertEquals(PadLayout.SINGLE, metadata.padLayout);
+    Assert.assertEquals(Difficulty.BEGINNER, metadata.difficulty);
+    Assert.assertEquals(5, metadata.rating);
+    Assert.assertEquals(0.134, metadata.getStream(), 0.0);
+    Assert.assertEquals(0.174, metadata.getVoltage(), 0.0);
+    Assert.assertEquals(0.011, metadata.getAir(), 0.0);
+    Assert.assertEquals(0.001, metadata.getFreeze(), 0.0);
+    Assert.assertEquals(0.000, metadata.getChaos(), 0.0);
   }
 }
