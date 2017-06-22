@@ -95,7 +95,7 @@ public class ParserTest {
     Assert.assertEquals(1, metadata.beatToStops.get(3.5), 0.0);
     Assert.assertEquals(0.25, metadata.beatToStops.get(7.0), 0.0);
   }
-  
+
   @Test
   public void testParsingMetadataTitleAndArtist() {
     String[] lines = {"#TITLE:CANDY☆;", "#ARTIST:Luv UNLIMITED;"};
@@ -139,7 +139,9 @@ public class ParserTest {
     Metadata metadata = new Metadata();
     metadata.beatToBpms = ImmutableMap.of(0.0, 120.0);
     metadata.beatToStops = ImmutableMap.of();
-    String[] lines = {"#NOTES:", "dance-double:", ":", "Expert:", "13:", "0.0,0.0,0.0,0.0,0.0:", ";"};
+    String[] lines = {
+      "#NOTES:", "dance-double:", ":", "Expert:", "13:", "0.0,0.0,0.0,0.0,0.0:", ";"
+    };
     Stepchart stepchart = FileParser.parseStepchart(metadata, lines);
     Assert.assertEquals(PadLayout.DOUBLE, stepchart.stepchartMetadata.padLayout);
   }

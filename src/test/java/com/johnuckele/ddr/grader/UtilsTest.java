@@ -14,7 +14,7 @@ public class UtilsTest {
     Assert.assertEquals(7.5, Utils.beatToTime(7.5, beatsToBpms, beatsToStops), 0);
     Assert.assertEquals(10, Utils.beatToTime(10, beatsToBpms, beatsToStops), 0);
   }
-  
+
   @Test
   public void testBeatToTimeFastTempo() {
     Map<Double, Double> beatsToBpms = ImmutableMap.of(0.0, 300.0);
@@ -22,7 +22,7 @@ public class UtilsTest {
     Assert.assertEquals(6, Utils.beatToTime(30, beatsToBpms, beatsToStops), 0);
     Assert.assertEquals(15, Utils.beatToTime(75, beatsToBpms, beatsToStops), 0);
   }
-  
+
   @Test
   public void testBeatToWithTempoChange() {
     Map<Double, Double> beatsToBpms = ImmutableMap.of(0.0, 120.0, 30.0, 240.0);
@@ -31,7 +31,7 @@ public class UtilsTest {
     Assert.assertEquals(15, Utils.beatToTime(30, beatsToBpms, beatsToStops), 0);
     Assert.assertEquals(22.5, Utils.beatToTime(60, beatsToBpms, beatsToStops), 0);
   }
-  
+
   @Test
   public void testBeatToTimeWithStop() {
     Map<Double, Double> beatsToBpms = ImmutableMap.of(0.0, 120.0);

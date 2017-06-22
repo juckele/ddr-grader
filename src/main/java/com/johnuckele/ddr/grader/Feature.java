@@ -79,7 +79,7 @@ public enum Feature {
     }
   },
   ;
-  
+
   public final String label;
 
   Feature(String label) {

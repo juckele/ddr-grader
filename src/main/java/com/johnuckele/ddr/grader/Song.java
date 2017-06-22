@@ -11,6 +11,12 @@ public class Song {
     this.metadata = metadata;
   }
 
+  public void dance() {
+    for (Stepchart stepchart : stepcharts) {
+      stepchart.dance(metadata);
+    }
+  }
+
   public void addStepchart(Stepchart stepchart) {
     stepcharts.add(stepchart);
   }

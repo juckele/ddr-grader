@@ -18,7 +18,7 @@ public class Stepchart {
   private int[] basicArrows;
   private double[] timestamps;
   private double[] beats;
-  
+
   // Dancer, to dance the stepchart
   private Dancer dancer;
 
@@ -30,9 +30,9 @@ public class Stepchart {
     beats = new double[maxStepCount];
   }
 
-  public void dance(Dancer dancer, Metadata metadata) {
+  public void dance(Metadata metadata) {
+    this.dancer = new Dancer();
     dancer.dance(metadata, this);
-    this.dancer = dancer;
   }
 
   public void addStep(int arrows, double timestamp, double beat) {
@@ -86,9 +86,8 @@ public class Stepchart {
   public double getLastArrowTimestamp() {
     return lastStepTimestamp;
   }
-  
-  public Dancer getDancer()
-  {
+
+  public Dancer getDancer() {
     return dancer;
   }
 }

@@ -32,6 +32,7 @@ public class FileParser {
     for (int i = 1; i < lineSections.length; i++) {
       song.addStepchart(parseStepchart(metadata, lineSections[i]));
     }
+    song.dance();
     return song;
   }
 
