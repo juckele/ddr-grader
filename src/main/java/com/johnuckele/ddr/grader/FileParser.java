@@ -1,5 +1,7 @@
 package com.johnuckele.ddr.grader;
 
+import enums.Difficulty;
+import enums.PadLayout;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -129,13 +131,7 @@ public class FileParser {
       else {
         // process the measure
         for (String arrowLine : measure) {
-          int arrows = 0;
-          for (int arrowIndex = 0; arrowIndex < arrowLine.length(); arrowIndex++) {
-            char arrow = arrowLine.charAt(arrowIndex);
-            if (arrow == '1') {
-              arrows += 1 << arrowIndex;
-            }
-          }
+          Arrows arrows = Arrows.parseArrows(arrowLine);
           double beatAtStep = minibeat / (double) MINIBEATS_PER_BEAT;
           double timeAtStep =
               Utils.beatToTime(beatAtStep, metadata.beatToBpms, metadata.beatToStops);
@@ -146,6 +142,7 @@ public class FileParser {
               + beatAtStep
               + " / @ timeAtStep "
               + timeAtStep);*/
+          System.out.println("ArrowLine: "+arrowLine);
           chart.addStep(arrows, timeAtStep, beatAtStep);
           minibeat += MINIBEATS_PER_BEAT / (measure.size() / 4);
         }

@@ -1,7 +1,5 @@
 package com.johnuckele.ddr.grader;
 
-import java.util.stream.IntStream;
-
 public class Stepchart {
   // Variables for tracking features of a song
   // The number of arrows in a song, which is a measure of how many literal arrows the song has.
@@ -15,7 +13,8 @@ public class Stepchart {
   // Variables to store the step chart
   public final StepchartMetadata stepchartMetadata;
   private int stepHead = 0;
-  private int[] basicArrows;
+  private final int dataLength;
+  private Arrows[] basicArrows;
   private double[] timestamps;
   private double[] beats;
 
@@ -25,9 +24,10 @@ public class Stepchart {
   public Stepchart(StepchartMetadata stepchartMetadata, int maxStepCount) {
     this.stepchartMetadata = stepchartMetadata;
     // Create storage structures
-    basicArrows = new int[maxStepCount];
-    timestamps = new double[maxStepCount];
-    beats = new double[maxStepCount];
+    dataLength = maxStepCount;
+    basicArrows = new Arrows[dataLength];
+    timestamps = new double[dataLength];
+    beats = new double[dataLength];
   }
 
   public void dance(Metadata metadata) {
@@ -35,29 +35,24 @@ public class Stepchart {
     dancer.dance(metadata, this);
   }
 
-  public void addStep(int arrows, double timestamp, double beat) {
+  public void addStep(Arrows arrows, double timestamp, double beat) {
     // Add the step
     basicArrows[stepHead] = arrows;
     timestamps[stepHead] = timestamp;
     beats[stepHead] = beat;
     stepHead++;
 
-    long arrowsInStep =
-        IntStream.range(0, stepchartMetadata.padLayout.arrowCount)
-            .filter(i -> 1 == (1 & (arrows >> i)))
-            .count();
-
     // Process arrows for arrow count / jumps / steps
-    if (arrowsInStep > 0) {
-      if (arrowsInStep > 1) {
+    if (arrows.arrowCount > 0) {
+      if (arrows.arrowCount > 1) {
         jumpCount++;
       }
-      arrowCount += arrowsInStep;
+      arrowCount += arrows.arrowCount;
       stepCount++;
     }
 
     // Update first / last step timestamps
-    if (arrowsInStep > 0) {
+    if (arrows.arrowCount > 0) {
       if (timestamp < firstStepTimestamp) {
         firstStepTimestamp = timestamp;
       }
@@ -65,6 +60,14 @@ public class Stepchart {
         lastStepTimestamp = timestamp;
       }
     }
+  }
+
+  public Arrows getBasicArrows(int index) {
+    return basicArrows[index];
+  }
+
+  public int getDataLength() {
+    return dataLength;
   }
 
   public int getArrowCount() {

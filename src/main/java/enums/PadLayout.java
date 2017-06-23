@@ -1,8 +1,9 @@
-package com.johnuckele.ddr.grader;
+package enums;
 
 public enum PadLayout {
   SINGLE(4, "dance-single"),
-  DOUBLE(8, "dance-double");
+  DOUBLE(8, "dance-double"),
+  ;
 
   public final int arrowCount;
   public final String name;

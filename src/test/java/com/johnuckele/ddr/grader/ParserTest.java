@@ -1,6 +1,8 @@
 package com.johnuckele.ddr.grader;
 
 import com.google.common.collect.ImmutableMap;
+import enums.Difficulty;
+import enums.PadLayout;
 import org.junit.Assert;
 import org.junit.Test;
 

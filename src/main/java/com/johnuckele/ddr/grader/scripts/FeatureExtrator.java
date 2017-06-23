@@ -36,7 +36,7 @@ public class FeatureExtrator {
   public static void main(String[] args) {
     try {
       // Process user input
-      args = new String[] {"/tmp/cs.sm", "/tmp/cs.csv"};
+      args = new String[] {"/tmp/cs.sm", "/tmp/ddr.csv"};
       String inputFile;
       String outputFile;
       if (args.length == 2) {
@@ -53,7 +53,6 @@ public class FeatureExtrator {
 
       // Parse songs
       List<Song> songs = parseSongs(new File(inputFile));
-      for (Song song : songs) {}
 
       // Write output file
       FileWriter.writeSongFeatureRows(outputFile, songs);

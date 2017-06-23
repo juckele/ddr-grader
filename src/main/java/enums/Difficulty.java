@@ -1,4 +1,4 @@
-package com.johnuckele.ddr.grader;
+package enums;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,7 +11,8 @@ public enum Difficulty {
   MEDIUM("Medium", new String[] {"medium", "another", "trick", "standard", "difficult"}),
   HARD("Hard", new String[] {"hard", "maniac", "ssr", "heavy", "expert"}),
   CHALLENGE("Challenge", new String[] {"challenge", "oni", "extra"}),
-  EDIT("Edit", new String[] {"edit", ""});
+  EDIT("Edit", new String[] {"edit", ""}),
+  ;
 
   public final String name;
   private final Set<String> aliases;

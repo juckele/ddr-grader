@@ -1,5 +1,7 @@
-package com.johnuckele.ddr.grader;
+package enums;
 
+import com.johnuckele.ddr.grader.Song;
+import com.johnuckele.ddr.grader.Stepchart;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,24 @@ public enum Feature {
       return "" + song.getMaxBpm();
     }
   },
+  ABSOLUTE_ROTATION("Absolute Rotation") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getAbsoluteRotation();
+    }
+  },
+  NET_ROTATION("Net Rotation") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getNetRotation();
+    }
+  },
+  ABSOLUTE_DISTANCE("Absolute Distance") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getAbsoluteDistance();
+    }
+  },  
   ;
 
   public final String label;
