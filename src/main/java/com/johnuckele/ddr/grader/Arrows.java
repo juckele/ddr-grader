@@ -12,7 +12,7 @@ public class Arrows {
 
   private static final Map<String, Arrows> parseMap = new HashMap<>();
 
-  public static final Arrows EMPTY= getEmptyInstance();
+  public static final Arrows EMPTY = getEmptyInstance();
 
   public final String parseString;
   public final int arrowCount;
@@ -21,11 +21,8 @@ public class Arrows {
 
   private static Arrows getEmptyInstance() {
     Arrows empty = new Arrows("");
-//    if( EMPTY == null) {
-//      EMPTY = ;
-      parseMap.put("0000", empty);
-      parseMap.put("00000000", empty);
-  //  }
+    parseMap.put("0000", empty);
+    parseMap.put("00000000", empty);
     return empty;
   }
 
@@ -61,13 +58,31 @@ public class Arrows {
 
   public Position getStepPosition() {
     if (positions.size() != 1) {
-      throw new IllegalStateException(
-          "Can't find the step for " + positions.size() + " arrows");
+      throw new IllegalStateException("Can't find the step for " + positions.size() + " arrows");
     }
     for (Position position : positions) {
-        return position;
+      return position;
     }
     throw new IllegalStateException("This really can't happen");
+  }
+
+  public Position getJumpArrow(boolean selectMode) {
+    if (positions.size() != 2) {
+      throw new IllegalStateException(
+          "Can't find the first arrow for " + positions.size() + " arrows");
+    }
+    int positionIndex = 0;
+    Position[] foundPositions = new Position[2];
+    for (Position position : positions) {
+      foundPositions[positionIndex++] = position;
+    }
+    boolean findMode = foundPositions[0].compareTo(foundPositions[1]) > 0;
+    if(findMode == selectMode) {
+      return foundPositions[0];
+    }
+    else {
+      return foundPositions[1];
+    }
   }
 
   public static Arrows parseArrows(String sourceString) {
@@ -75,6 +90,5 @@ public class Arrows {
       parseMap.put(sourceString, new Arrows(sourceString));
     }
     return parseMap.get(sourceString);
-    
   }
 }

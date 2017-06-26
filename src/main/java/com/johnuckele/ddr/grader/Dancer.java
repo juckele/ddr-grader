@@ -6,6 +6,11 @@ public class Dancer {
   private double absoluteRotation = 0;
   private double netRotation = 0;
   private double absoluteDistance = 0;
+  private int jumpsInPlace = 0;
+  private int jumpsHalfInPlace = 0;
+  private int jumpsFullMove = 0;
+  private int stepsInPlace = 0;
+  private int stepsMove = 0;
 
   // Dancer physical orientation
   private Position leftFoot = Position.PAD_ONE_LEFT;
@@ -38,9 +43,11 @@ public class Dancer {
         && arrows.positions.contains(leftFoot)
         && arrows.positions.contains(rightFoot)) {
       // Jump in place
+      jumpsInPlace++;
     } else if (arrows.arrowCount == 2
         && (arrows.positions.contains(leftFoot) || arrows.positions.contains(rightFoot))) {
       // Jump with one foot in place
+      jumpsHalfInPlace++;
       if (arrows.positions.contains(leftFoot)) {
         rightFoot = arrows.getJumpArrowsMinus(leftFoot);
         lastFootIsLeft = true;
@@ -50,10 +57,36 @@ public class Dancer {
       }
     } else if (arrows.arrowCount == 2) {
       // Jump, complete move
-      // TODO: THIS IS HARD, ignore for now
+      jumpsFullMove++;
+      Position arrowOne = arrows.getJumpArrow(false);
+      Position arrowTwo = arrows.getJumpArrow(true);
+      double distanceLeftToOne = arrowOne.distanceFrom(leftFoot) + arrowTwo.distanceFrom(rightFoot);
+      double distanceLeftToTwo = arrowTwo.distanceFrom(leftFoot) + arrowOne.distanceFrom(rightFoot);
+      if (distanceLeftToOne == distanceLeftToTwo) {
+        double headingLeftToOne = Position.getHeading(arrowOne, arrowTwo);
+        double headingLeftToTwo = Position.getHeading(arrowTwo, arrowOne);
+        double deltaHeadingLeftToOne = headingLeftToOne - currentHeading;
+        double deltaHeadingLeftToTwo = headingLeftToTwo - currentHeading;
+        double netRotationLeftToOne = netRotation + deltaHeadingLeftToOne;
+        double netRotationLeftToTwo = netRotation + deltaHeadingLeftToTwo;
+        if (Math.abs(netRotationLeftToOne) <= Math.abs(netRotationLeftToTwo)) {
+          leftFoot = arrowOne;
+          rightFoot = arrowTwo;
+        } else {
+          leftFoot = arrowTwo;
+          rightFoot = arrowOne;
+        }
+      } else if (distanceLeftToOne < distanceLeftToTwo) {
+        leftFoot = arrowOne;
+        rightFoot = arrowTwo;
+      } else {
+        leftFoot = arrowTwo;
+        rightFoot = arrowOne;
+      }
     } else if (arrows.arrowCount == 1
         && (arrows.positions.contains(leftFoot) || arrows.positions.contains(rightFoot))) {
       // Step in place
+      stepsInPlace++;
       if (arrows.positions.contains(leftFoot)) {
         lastFootIsLeft = true;
       } else if (arrows.positions.contains(rightFoot)) {
@@ -61,6 +94,7 @@ public class Dancer {
       }
     } else if (arrows.arrowCount == 1) {
       // Step, move a foot
+      stepsMove++;
       if (lastFootIsLeft) {
         rightFoot = arrows.getStepPosition();
         lastFootIsLeft = false;
@@ -87,9 +121,11 @@ public class Dancer {
   private void updatePosition() {
     double newX = Position.getAverageX(leftFoot, rightFoot);
     double newY = Position.getAverageY(leftFoot, rightFoot);
-    double deltaDistance = Math.sqrt((newX - currentX)*(newX - currentX) +(newY - currentY)*(newY - currentY));
+    double deltaDistance =
+        Math.sqrt((newX - currentX) * (newX - currentX) + (newY - currentY) * (newY - currentY));
     absoluteDistance += deltaDistance;
   }
+
   public double getAbsoluteRotation() {
     return absoluteRotation;
   }
@@ -100,5 +136,25 @@ public class Dancer {
 
   public double getAbsoluteDistance() {
     return absoluteDistance;
+  }
+
+  public int getJumpsInPlace() {
+    return jumpsInPlace;
+  }
+
+  public int getJumpsHalfInPlace() {
+    return jumpsHalfInPlace;
+  }
+
+  public int getJumpsFullMove() {
+    return jumpsFullMove;
+  }
+
+  public int getStepsInPlace() {
+    return stepsInPlace;
+  }
+
+  public int getStepsMove() {
+    return stepsMove;
   }
 }

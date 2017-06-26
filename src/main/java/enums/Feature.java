@@ -98,6 +98,36 @@ public enum Feature {
       return "" + chart.getDancer().getAbsoluteDistance();
     }
   },  
+  JUMPS_IN_PLACE("Jumps In Place") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getJumpsInPlace();
+    }
+  },  
+  JUMPS_HALF_IN_PLACE("Jumps Half In Place") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getJumpsHalfInPlace();
+    }
+  },  
+  JUMPS_FULL_MOVE("Jumps Full Move") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getJumpsFullMove();
+    }
+  },  
+  STEPS_IN_PLACE("Steps In Place") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getStepsInPlace();
+    }
+  },  
+  STEPs_MOVE("Steps Move") {
+    @Override
+    public String getValue(Song song, Stepchart chart) {
+      return "" + chart.getDancer().getStepsMove();
+    }
+  },  
   ;
 
   public final String label;

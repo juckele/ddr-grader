@@ -29,6 +29,10 @@ public enum Position {
     return (leftFoot.y + rightFoot.y) / 2;
   }
 
+  public double distanceFrom(Position that) {
+    return Math.sqrt((this.x - that.x)*(this.x - that.x) +(this.y - that.y)*(this.x - that.y));
+  }
+
   public static double getXSpan(Position leftFoot, Position rightFoot) {
     return Math.abs(leftFoot.x - rightFoot.x);
   }
@@ -58,4 +62,5 @@ public enum Position {
     }
     throw new IllegalStateException("Unable to map \"" + arrowIndex + "\" to a valid Position");
   }
+
 }
