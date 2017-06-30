@@ -66,6 +66,14 @@ public class Stepchart {
     return basicArrows[index];
   }
 
+  public double getTimestamp(int index) {
+    return timestamps[index];
+  }
+
+  public double getBeat(int index) {
+    return beats[index];
+  }
+
   public int getDataLength() {
     return dataLength;
   }
