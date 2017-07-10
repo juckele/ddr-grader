@@ -1,10 +1,12 @@
 package com.johnuckele.ddr.grader;
 
-import com.google.common.collect.ImmutableList;
-import enums.Difficulty;
-import enums.PadLayout;
 import java.util.List;
+
 import org.apache.commons.lang3.ArrayUtils;
+
+import com.google.common.collect.ImmutableList;
+import com.johnuckele.ddr.grader.enums.Difficulty;
+import com.johnuckele.ddr.grader.enums.PadLayout;
 
 public class StepchartMetadata {
 

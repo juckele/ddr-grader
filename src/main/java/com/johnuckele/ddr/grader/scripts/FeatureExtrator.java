@@ -36,7 +36,9 @@ public class FeatureExtrator {
   public static void main(String[] args) {
     try {
       // Process user input
-      args = new String[] {"/tmp/cs.sm", "/tmp/ddr.csv"};
+      // /home/juckele/.stepmania-5.0/Songs
+      // /home/juckele/.stepmania-5.0/Songs/ZEN-AC-JP-X3/Tribe/Tribe.sm
+      args = new String[] {"/home/juckele/.stepmania-5.0/Songs/", "/tmp/ddr.csv"};
       String inputFile;
       String outputFile;
       if (args.length == 2) {

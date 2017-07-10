@@ -1,6 +1,5 @@
-package enums;
+package com.johnuckele.ddr.grader.enums;
 
-import enums.Position;
 import org.junit.Assert;
 import org.junit.Test;
 

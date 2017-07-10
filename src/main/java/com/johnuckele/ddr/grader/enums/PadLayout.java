@@ -1,8 +1,10 @@
-package enums;
+package com.johnuckele.ddr.grader.enums;
 
 public enum PadLayout {
   SINGLE(4, "dance-single"),
+  SOLO(6, "dance-solo"),
   DOUBLE(8, "dance-double"),
+  COUPLE(8, "dance-couple"),
   ;
 
   public final int arrowCount;

@@ -1,8 +1,9 @@
-package enums;
+package com.johnuckele.ddr.grader.enums;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 
 public enum Difficulty {

@@ -1,4 +1,4 @@
-package enums;
+package com.johnuckele.ddr.grader.enums;
 
 public enum Position {
   PAD_ONE_LEFT(0, 1, 0),

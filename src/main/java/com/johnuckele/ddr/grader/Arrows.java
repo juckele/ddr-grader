@@ -1,12 +1,13 @@
 package com.johnuckele.ddr.grader;
 
-import com.google.common.collect.Sets;
-import enums.Position;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
+import com.johnuckele.ddr.grader.enums.Position;
 
 public class Arrows {
 

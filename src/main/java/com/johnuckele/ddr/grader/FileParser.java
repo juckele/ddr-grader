@@ -1,7 +1,5 @@
 package com.johnuckele.ddr.grader;
 
-import enums.Difficulty;
-import enums.PadLayout;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -12,13 +10,22 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.johnuckele.ddr.grader.enums.Difficulty;
+import com.johnuckele.ddr.grader.enums.PadLayout;
 
 public class FileParser {
   private static final int MINIBEATS_PER_BEAT = 48;
 
   public static Song parseFile(String filename) throws IOException {
-    return parseLines(readFile(filename));
+    try {
+      return parseLines(readFile(filename));
+    }
+    catch(Exception e) {
+      throw new RuntimeException("Unable to parse "+filename+" caused by:", e);
+    }
   }
 
   public static String[] readFile(String filename) throws IOException {
@@ -71,13 +78,14 @@ public class FileParser {
   public static Metadata parseMetadata(String[] lines) {
     System.out.println("Parsing Metadata");
     Metadata metadata = new Metadata();
+    metadata.beatToStops = new HashMap<>(); // Set this to empty to start since some files skip this line
     for (String line : lines) {
       line = StringUtils.trim(line);
-      if (line.contains("#TITLE:")) {
+      if (line.toUpperCase().contains("#TITLE:")) {
         metadata.name = line.substring(line.indexOf("#TITLE:") + 7, line.length() - 1);
-      } else if (line.contains("#ARTIST:")) {
+      } else if (line.toUpperCase().contains("#ARTIST:")) {
         metadata.artist = line.substring(line.indexOf("#ARTIST:") + 8, line.length() - 1);
-      } else if (line.startsWith("#BPMS:")) {
+      } else if (line.toUpperCase().startsWith("#BPMS:")) {
         String bpms = line.substring(6, line.length() - 1);
         String[] bpmPairs = bpms.split(",");
         Map<Double, Double> beatToBpmMap = new HashMap<>();
@@ -86,7 +94,7 @@ public class FileParser {
           beatToBpmMap.put(Double.parseDouble(chunks[0]), Double.parseDouble(chunks[1]));
         }
         metadata.beatToBpms = beatToBpmMap;
-      } else if (line.startsWith("#STOPS:")) {
+      } else if (line.toUpperCase().startsWith("#STOPS:")) {
         String stops = line.substring(7, line.length() - 1);
         String[] stopPairs = stops.split(",");
         Map<Double, Double> beatToStopMap = new HashMap<>();
@@ -111,7 +119,7 @@ public class FileParser {
     // Create a stepchart with the correct arraysize
     int eventCount = 0;
     for (String line : lines) {
-      if (StringUtils.isNumeric(line) && (line.length() == 4 || line.length() == 8)) {
+      if (StringUtils.isNumeric(line) && (line.length() >= 4 && line.length() <= 8)) {
         eventCount++;
       }
     }
@@ -124,7 +132,7 @@ public class FileParser {
     List<String> measure = new LinkedList<>();
     for (String line : lines) {
       // Add all lines that are just numbers to the measure
-      if (StringUtils.isNumeric(line) && (line.length() == 4 || line.length() == 8)) {
+      if (StringUtils.isNumeric(line) && (line.length() >= 4 && line.length() <= 8)) {
         measure.add(line);
       }
       // we've hit the end of a measure
@@ -142,9 +150,8 @@ public class FileParser {
               + beatAtStep
               + " / @ timeAtStep "
               + timeAtStep);*/
-          System.out.println("ArrowLine: "+arrowLine);
           chart.addStep(arrows, timeAtStep, beatAtStep);
-          minibeat += MINIBEATS_PER_BEAT / (measure.size() / 4);
+          minibeat += MINIBEATS_PER_BEAT / (measure.size() / 4.0);
         }
         // flush the measure
         measure.clear();
@@ -163,10 +170,12 @@ public class FileParser {
             ? 0
             : Integer.parseInt(StringUtils.strip(stepchartParts[4]));
     double[] grooveRadar = new double[5];
-    int grooveRadarIndex = 0;
-    for (String grooveRadarElement : stepchartParts[5].split(",")) {
-      grooveRadar[grooveRadarIndex++] = Double.parseDouble(grooveRadarElement);
-    }
+//    int grooveRadarIndex = 0;
+//    for (String grooveRadarElement : stepchartParts[5].split(",")) {
+//      if(StringUtils.isEmpty(grooveRadarElement)) {
+//        grooveRadar[grooveRadarIndex++] = Double.parseDouble(grooveRadarElement);
+//      }
+//    }
     StepchartMetadata stepchartMetadata =
         new StepchartMetadata(padLayout, difficulty, rating, grooveRadar);
     return stepchartMetadata;

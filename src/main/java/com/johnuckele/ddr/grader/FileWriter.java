@@ -1,10 +1,11 @@
 package com.johnuckele.ddr.grader;
 
-import com.google.common.collect.ImmutableList;
-import enums.Feature;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+import com.johnuckele.ddr.grader.enums.Feature;
 
 public class FileWriter {
 

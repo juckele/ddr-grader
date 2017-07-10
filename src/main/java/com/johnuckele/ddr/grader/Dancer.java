@@ -1,8 +1,9 @@
 package com.johnuckele.ddr.grader;
 
-import enums.Position;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.johnuckele.ddr.grader.enums.Position;
 
 public class Dancer {
   private double absoluteRotation = 0;
@@ -190,29 +191,84 @@ public class Dancer {
   public int getStepsMove() {
     return stepsMoveTimestamps.size();
   }
-
+  
   public double getMeanJumpsInPlaceTimestamps() {
-    double sum = 0;
-    int size = jumpsInPlaceTimestamps.size();
-    if (size == 0) {
-      return 0;
-    }
-    for (double d : jumpsInPlaceTimestamps) {
-      sum += d;
-    }
-    return sum / size;
+    return Utils.getMean(jumpsInPlaceTimestamps);
+  }
+  public double getStdDevJumpsInPlaceTimestamps() {
+    return Utils.getStdDev(jumpsInPlaceTimestamps);
+  }
+  public double getMeanJumpsInPlaceBeats() {
+    return Utils.getMean(jumpsInPlaceBeats);
+  }
+  public double getStdDevJumpsInPlaceBeats() {
+    return Utils.getStdDev(jumpsInPlaceBeats);
   }
 
-  public double getStdDevJumpsInPlaceTimestamps() {
-    int size = jumpsInPlaceTimestamps.size();
-    if (size == 0) {
-      return 0;
-    }
-    double mean = getMeanJumpsInPlaceTimestamps();
-    double error = 0;
-    for (double d : jumpsInPlaceTimestamps) {
-      error += (d - mean) * (d - mean);
-    }
-    return Math.sqrt(error / size);
+  public double getMeanJumpsHalfInPlaceTimestamps() {
+    return Utils.getMean(jumpsHalfInPlaceTimestamps);
   }
+  public double getStdDevJumpsHalfInPlaceTimestamps() {
+    return Utils.getStdDev(jumpsHalfInPlaceTimestamps);
+  }
+  public double getMeanJumpsHalfInPlaceBeats() {
+    return Utils.getMean(jumpsHalfInPlaceBeats);
+  }
+  public double getStdDevJumpsHalfInPlaceBeats() {
+    return Utils.getStdDev(jumpsHalfInPlaceBeats);
+  }
+
+  public double getMeanJumpsFullMoveTimestamps() {
+    return Utils.getMean(jumpsFullMoveTimestamps);
+  }
+  public double getStdDevJumpsFullMoveTimestamps() {
+    return Utils.getStdDev(jumpsFullMoveTimestamps);
+  }
+  public double getMeanJumpsFullMoveBeats() {
+    return Utils.getMean(jumpsFullMoveBeats);
+  }
+  public double getStdDevJumpsFullMoveBeats() {
+    return Utils.getStdDev(jumpsFullMoveBeats);
+  }
+
+  public double getMeanStepsRepeatedTimestamps() {
+    return Utils.getMean(stepsRepeatedTimestamps);
+  }
+  public double getStdDevStepsRepeatedTimestamps() {
+    return Utils.getStdDev(stepsRepeatedTimestamps);
+  }
+  public double getMeanStepsRepeatedBeats() {
+    return Utils.getMean(stepsRepeatedBeats);
+  }
+  public double getStdDevStepsRepeatedBeats() {
+    return Utils.getStdDev(stepsRepeatedBeats);
+  }
+
+  public double getMeanStepsMarchingTimestamps() {
+    return Utils.getMean(stepsMarchingTimestamps);
+  }
+  public double getStdDevStepsMarchingTimestamps() {
+    return Utils.getStdDev(stepsMarchingTimestamps);
+  }
+  public double getMeanStepsMarchingBeats() {
+    return Utils.getMean(stepsMarchingBeats);
+  }
+  public double getStdDevStepsMarchingBeats() {
+    return Utils.getStdDev(stepsMarchingBeats);
+  }
+
+  public double getMeanStepsMoveTimestamps() {
+    return Utils.getMean(stepsMoveTimestamps);
+  }
+  public double getStdDevStepsMoveTimestamps() {
+    return Utils.getStdDev(stepsMoveTimestamps);
+  }
+  public double getMeanStepsMoveBeats() {
+    return Utils.getMean(stepsMoveBeats);
+  }
+  public double getStdDevStepsMoveBeats() {
+    return Utils.getStdDev(stepsMoveBeats);
+  }
+
+
 }

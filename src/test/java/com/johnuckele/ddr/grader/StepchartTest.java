@@ -1,9 +1,10 @@
 package com.johnuckele.ddr.grader;
 
-import enums.Difficulty;
-import enums.PadLayout;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.johnuckele.ddr.grader.enums.Difficulty;
+import com.johnuckele.ddr.grader.enums.PadLayout;
 
 public class StepchartTest {
   @Test
