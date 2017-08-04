@@ -21,24 +21,16 @@ public enum Feature {
       return song.metadata.artist;
     }
   },
-  PAD_LAYOUT("Pad Layout") {
-    @Override
-    public String getValue(Song song, Stepchart chart) {
-      return chart.stepchartMetadata.padLayout.name;
-    }
-  },
   DIFFICULTY("Difficulty") {
     @Override
     public String getValue(Song song, Stepchart chart) {
       return chart.stepchartMetadata.difficulty.name;
     }
   },
-
-  // Foot rating
-  RATING("Rating") {
+  PAD_LAYOUT("Pad Layout") {
     @Override
     public String getValue(Song song, Stepchart chart) {
-      return "" + chart.stepchartMetadata.rating;
+      return chart.stepchartMetadata.padLayout.name;
     }
   },
 
